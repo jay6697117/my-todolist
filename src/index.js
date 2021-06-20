@@ -2,27 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.css';
 
-class App extends React.Component {
-  // JSX
-  render() {
-    const handleClick = () => {
-      alert('lalala');
-    };
-    const element1 = (
-      <li className='test' onClick={handleClick}>
-        Hello, World
-      </li>
-    );
-    const element2 = (
-      <div>
-        <ul>{element1}</ul>
-      </div>
-    );
-    return element2;
-  }
-}
-ReactDOM.render(<App />, document.getElementById('root'));
-
-// const element = <h1>Hello, World</h1>
-// const element = React.createElement('h1', null, 'Hello, World');
-// ReactDOM.render(element, document.getElementById('root'));
+const TagInput = ({ tags }) => {
+  const [tagData, setTagData] = React.useState(tags);
+  const removeTagData = indexToRemove => {
+    setTagData([...tagData.filter((_, index) => index !== indexToRemove)]);
+  };
+  const addTagData = event => {
+    if (event.target.value !== '') {
+      setTagData([...tagData, event.target.value]);
+      event.target.value = '';
+    }
+  };
+  return (
+    <div className='tag-input'>
+      <ul className='tags'>
+        {tagData.map((tag, index) => (
+          <li key={index} className='tag'>
+            <span className='tag-title'>{tag}</span>
+            <span className='tag-close-icon' onClick={() => removeTagData(index)}>
+              x
+            </span>
+          </li>
+        ))}
+      </ul>
+      <input
+        type='text'
+        onKeyUp={event => (event.key === 'Enter' ? addTagData(event) : null)}
+        placeholder='Press enter to add a tag'
+      />
+    </div>
+  );
+};
+ReactDOM.render(<TagInput tags={['Nodejs', 'MongoDB']} />, document.getElementById('root'));

@@ -6,12 +6,13 @@ class Todo extends React.Component {
   // JSX
   render() {
     console.log(`class Todo this.props`, this.props);
-    return <li>{this.props.content}</li>;
+    return <li>Hello, {this.props.content}</li>;
   }
 }
 
 class App extends React.Component {
   render() {
+    console.log(`class App this.props`, this.props);
     const todoList = ['图雀', '图雀写作工具', '图雀社区', '图雀文档'];
     return (
       <ul>
@@ -26,10 +27,11 @@ class App extends React.Component {
 
 // function Todo(props) {
 //   console.log(`function Todo props: `, props);
-//   return <li>{props.content}</li>;
+//   return <li>Hello, {props.content}</li>;
 // }
 
 // function App(props) {
+//   console.log(`function App props`, props)
 //   const todoList = ['图雀', '图雀写作工具', '图雀社区', '图雀文档'];
 //   return (
 //     <ul>

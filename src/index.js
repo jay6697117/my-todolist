@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './assets/style.css';
 
 const todoList = ['图雀', '图雀写作工具', '图雀社区', '图雀文档'];
-const nowTodo = ['哈哈哈', '啦啦啦'];
+const nowdoList = ['哈哈哈111', '啦啦啦222'];
 
 class Todo extends React.Component {
   // JSX
@@ -21,14 +21,14 @@ class App extends React.Component {
     //设置初始值
     this.state = {
       todoList: [],
-      nowTodo: []
+      nowdoList: []
     };
   }
   componentDidMount() {
     new Promise(resolve => {
       this.timer1 = setTimeout(resolve, 2000);
     }).then(() => {
-      this.setState({ todoList, nowTodo });
+      this.setState({ todoList, nowdoList });
     });
   }
 
@@ -37,16 +37,16 @@ class App extends React.Component {
     clearTimeout(this.timer1);
   }
   render() {
-    console.log('--------------------------------');
     console.log(`class App render this.state`, this.state);
+    console.log('------------------------------------------')
     return (
       <ul>
-        <Todo content={this.state.todoList[0]} />
-        <Todo content={this.state.todoList[1]} />
-        <Todo content={this.state.todoList[2]} />
-        <Todo content={this.state.todoList[3]} />
-        <Todo content={this.state.nowTodo[0]} />
-        <Todo content={this.state.nowTodo[1]} />
+        {this.state.todoList.map((todo, index) => (
+          <Todo key={Date.now() + '-' + index} content={todo} />
+        ))}
+        {this.state.nowdoList.map((nowdo, index) => (
+          <Todo key={Date.now() + '-' + index} content={nowdo} />
+        ))}
       </ul>
     );
   }

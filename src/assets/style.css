@@ -1,16 +1,6 @@
-/* .ul-style li {
-  width: 200px;
-  margin-bottom: 20px;
-}
-
-.bg-style {
-  background-color: red;
-} */
-
-.clicked {
-  background-color: lightseagreen;
-}
-
-.unclicked {
-  background-color: gray;
+ul,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }

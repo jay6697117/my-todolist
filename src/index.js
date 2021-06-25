@@ -9,17 +9,26 @@ class Todo extends React.Component {
   // JSX
   render() {
     console.log(`class Todo render this.props`, this.props);
-    // return this.props.tag === 'todo' ? (
-    //   <li>todo hello, {this.props.content}</li>
-    // ) : (
-    //   <li>nowdo 你好, {this.props.content}</li>
-    // );
 
     if (this.props.tag === 'todo') {
-      return <li className={this.props.isClicked ? 'clicked' : 'unclicked'}>todo hello, {this.props.content}</li>;
+      if (this.props.order % 2 === 0) {
+        return (
+          <li style={{ color: 'purple', backgroundColor: 'lightseagreen', padding: '10px' }}>
+            todo hello, {this.props.content}
+          </li>
+        );
+      }
+      return <li style={{ padding: '10px' }}>todo hello, {this.props.content}</li>;
     }
     if (this.props.tag === 'nowdo') {
-      return <li className={this.props.isClicked ? 'clicked' : 'unclicked'}>nowdo 你好, {this.props.content}</li>;
+      if (this.props.order % 2 === 0) {
+        return (
+          <li style={{ color: 'blue', backgroundColor: 'lightgray', padding: '10px' }}>
+            nowdo 你好, {this.props.content}
+          </li>
+        );
+      }
+      return <li style={{ padding: '10px' }}>nowdo 你好, {this.props.content}</li>;
     }
   }
 }
@@ -35,31 +44,54 @@ class App extends React.Component {
       nowdoList: []
     };
   }
-
-  componentDidMount() {
-    new Promise(resolve => {
-      this.timer1 = setTimeout(resolve, 2000);
-    }).then(() => {
+  handleAdd() {
+    return e => {
+      console.log(`e`, e);
+      e.preventDefault();
       this.setState({ todoList, nowdoList });
-    });
+    };
+  }
+  handleDel() {
+    return e => {
+      console.log(`e`, e);
+      e.preventDefault();
+      this.setState({ todoList: [], nowdoList: [] });
+    };
   }
 
+  componentDidMount() {
+    console.log(`componentDidMount this`, this);
+    // this.setState({ todoList, nowdoList });
+  }
+
+  componentDidUpdate() {
+    // console.log(`componentDidUpdate this`, this);
+  }
   componentWillUnmount() {
     console.log(`this.timer1`, this.timer1);
     clearTimeout(this.timer1);
   }
+
   render() {
-    console.log(`class App render this.state`, this.state);
+    // console.log(`class App render this.state`, this.state);
     console.log('------------------------------------------');
     return (
-      <ul>
-        {this.state.todoList.map((todo, index) => (
-          <Todo key={Date.now() + '-' + index} isClicked={false} tag='todo' content={todo} />
-        ))}
-        {this.state.nowdoList.map((nowdo, index) => (
-          <Todo key={Date.now() + '-' + index} isClicked={true} tag='nowdo' content={nowdo} />
-        ))}
-      </ul>
+      <div>
+        <a style={{ paddingRight: '10px' }} href='https://www.baidu.com/' onClick={this.handleAdd()}>
+          加载
+        </a>
+        <a href='https://www.baidu.com/' onClick={this.handleDel()}>
+          清除
+        </a>
+        <ul style={{ paddingTop: '20px' }}>
+          {this.state.todoList.map((todo, index) => (
+            <Todo key={Date.now() + '-' + index} order={index} tag='todo' content={todo} />
+          ))}
+          {this.state.nowdoList.map((nowdo, index) => (
+            <Todo key={Date.now() + '-' + index} order={index} tag='nowdo' content={nowdo} />
+          ))}
+        </ul>
+      </div>
     );
   }
 }

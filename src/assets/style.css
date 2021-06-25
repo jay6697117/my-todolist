@@ -6,3 +6,11 @@
 .bg-style {
   background-color: red;
 } */
+
+.clicked {
+  background-color: lightseagreen;
+}
+
+.unclicked {
+  background-color: gray;
+}

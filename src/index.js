@@ -9,7 +9,18 @@ class Todo extends React.Component {
   // JSX
   render() {
     console.log(`class Todo render this.props`, this.props);
-    return <li>Hello, {this.props.content}</li>;
+    // return this.props.tag === 'todo' ? (
+    //   <li>todo hello, {this.props.content}</li>
+    // ) : (
+    //   <li>nowdo 你好, {this.props.content}</li>
+    // );
+
+    if (this.props.tag === 'todo') {
+      return <li className={this.props.isClicked ? 'clicked' : 'unclicked'}>todo hello, {this.props.content}</li>;
+    }
+    if (this.props.tag === 'nowdo') {
+      return <li className={this.props.isClicked ? 'clicked' : 'unclicked'}>nowdo 你好, {this.props.content}</li>;
+    }
   }
 }
 
@@ -24,6 +35,7 @@ class App extends React.Component {
       nowdoList: []
     };
   }
+
   componentDidMount() {
     new Promise(resolve => {
       this.timer1 = setTimeout(resolve, 2000);
@@ -38,14 +50,14 @@ class App extends React.Component {
   }
   render() {
     console.log(`class App render this.state`, this.state);
-    console.log('------------------------------------------')
+    console.log('------------------------------------------');
     return (
       <ul>
         {this.state.todoList.map((todo, index) => (
-          <Todo key={Date.now() + '-' + index} content={todo} />
+          <Todo key={Date.now() + '-' + index} isClicked={false} tag='todo' content={todo} />
         ))}
         {this.state.nowdoList.map((nowdo, index) => (
-          <Todo key={Date.now() + '-' + index} content={nowdo} />
+          <Todo key={Date.now() + '-' + index} isClicked={true} tag='nowdo' content={nowdo} />
         ))}
       </ul>
     );

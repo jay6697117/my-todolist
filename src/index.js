@@ -56,6 +56,10 @@ class App extends React.Component {
     // console.log(`handleAdd e`, e);
     e.preventDefault();
     console.log(`this`, this);
+    if (!this.state.nowdo) {
+      alert('待办事项不能为空');
+      return;
+    }
     this.state.todoList.push(this.state.nowdo);
     this.setState({
       nowdo: '',
@@ -86,11 +90,11 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <span>待办事项: </span>
         <input type='text' onChange={this.handleChange.bind(this)} value={this.state.nowdo} />
         <button onClick={this.handleAdd.bind(this)} style={{ marginLeft: '10px' }}>
           添加
         </button>
-        <div>nowdo: {this.state.nowdo}</div>
         <ul style={{ paddingTop: '20px' }}>
           {this.state.todoList.map((todo, index) => (
             <Todo

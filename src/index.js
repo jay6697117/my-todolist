@@ -105,9 +105,10 @@ class App extends React.Component {
             />
           ))}
         </ul>
-        <hr />
-        <div>nowdo: {JSON.stringify(this.state.nowdo)}</div>
-        <div>todoList: {JSON.stringify(this.state.todoList)}</div>
+        <div style={{ marginTop: '30px', backgroundColor: '#ccc' }}>
+          <div>nowdo: {JSON.stringify(this.state.nowdo)}</div>
+          <div>todoList: {JSON.stringify(this.state.todoList)}</div>
+        </div>
       </div>
     );
   }

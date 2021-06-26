@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import _ from 'lodash';
 import './assets/style.css';
 
 const todoList = ['图雀', '图雀写作工具', '图雀社区', '图雀文档'];

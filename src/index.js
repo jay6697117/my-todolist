@@ -84,7 +84,15 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ todoList });
+    new Promise(resolve => {
+      this.timer = setTimeout(resolve, 1000);
+    }).then(() => {
+      this.setState({ todoList });
+    });
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   render() {

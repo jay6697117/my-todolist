@@ -1,35 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 import './assets/style.css';
 
 const todoList = ['图雀', '图雀写作工具', '图雀社区', '图雀文档'];
-const nowdoList = ['哈哈哈111', '啦啦啦222'];
 
 class Todo extends React.Component {
-  // JSX
   render() {
-    console.log(`class Todo render this.props`, this.props);
-
-    if (this.props.tag === 'todo') {
-      if (this.props.order % 2 === 0) {
-        return (
-          <li style={{ color: 'purple', backgroundColor: 'lightseagreen', padding: '10px' }}>
-            todo hello, {this.props.content}
-          </li>
-        );
-      }
-      return <li style={{ padding: '10px' }}>todo hello, {this.props.content}</li>;
+    // console.log(`Todo this.props: `, this.props);
+    if (this.props.order % 2 === 0) {
+      return (
+        <li style={{ color: 'yellow', backgroundColor: 'lightseagreen', padding: '10px', position: 'relative' }}>
+          todo hello, {this.props.content}
+          <button
+            onClick={this.props.handleDeleteItem(this.props.order)}
+            style={{ position: 'absolute', top: '8.5px', right: '10px' }}>
+            删除
+          </button>
+        </li>
+      );
     }
-    if (this.props.tag === 'nowdo') {
-      if (this.props.order % 2 === 0) {
-        return (
-          <li style={{ color: 'blue', backgroundColor: 'lightgray', padding: '10px' }}>
-            nowdo 你好, {this.props.content}
-          </li>
-        );
-      }
-      return <li style={{ padding: '10px' }}>nowdo 你好, {this.props.content}</li>;
-    }
+    return (
+      <li style={{ padding: '10px', position: 'relative' }}>
+        todo hello, {this.props.content}{' '}
+        <button
+          onClick={this.props.handleDeleteItem(this.props.order)}
+          style={{ position: 'absolute', top: '8.5px', right: '10px' }}>
+          删除
+        </button>
+      </li>
+    );
   }
 }
 
@@ -40,57 +40,71 @@ class App extends React.Component {
 
     //设置初始值
     this.state = {
-      todoList: [],
-      nowdoList: []
+      nowdo: '',
+      todoList: []
     };
   }
-  handleAdd() {
-    return e => {
-      console.log(`e`, e);
-      e.preventDefault();
-      this.setState({ todoList, nowdoList });
-    };
+  handleChange(e) {
+    // console.log(`handleChange e`, e);
+    e.preventDefault();
+    console.log(`e.target.value: `, e.target.value);
+    this.setState({
+      nowdo: e.target.value
+    });
   }
-  handleDel() {
-    return e => {
-      console.log(`e`, e);
-      e.preventDefault();
-      this.setState({ todoList: [], nowdoList: [] });
-    };
+
+  handleAdd(e) {
+    // console.log(`handleAdd e`, e);
+    e.preventDefault();
+    console.log(`this`, this);
+    this.state.todoList.push(this.state.nowdo);
+    this.setState({
+      nowdo: '',
+      todoList: this.state.todoList
+    });
+  }
+
+  handleDelete(num, e) {
+    // console.log(`handleDelete e`, e);
+    e.preventDefault();
+    console.log(`num`, num);
+    for (let index = 0; index < this.state.todoList.length; index++) {
+      if (index === num) {
+        this.state.todoList.splice(index, 1);
+      }
+    }
+    console.log(`handleDelete this.state.todoList`, this.state.todoList);
+
+    this.setState({
+      todoList: this.state.todoList
+    });
   }
 
   componentDidMount() {
-    console.log(`componentDidMount this`, this);
-    // this.setState({ todoList, nowdoList });
-  }
-
-  componentDidUpdate() {
-    // console.log(`componentDidUpdate this`, this);
-  }
-  componentWillUnmount() {
-    console.log(`this.timer1`, this.timer1);
-    clearTimeout(this.timer1);
+    this.setState({ todoList });
   }
 
   render() {
-    // console.log(`class App render this.state`, this.state);
-    console.log('------------------------------------------');
     return (
       <div>
-        <a style={{ paddingRight: '10px' }} href='https://www.baidu.com/' onClick={this.handleAdd()}>
-          加载
-        </a>
-        <a href='https://www.baidu.com/' onClick={this.handleDel()}>
-          清除
-        </a>
+        <input type='text' onChange={this.handleChange.bind(this)} value={this.state.nowdo} />
+        <button onClick={this.handleAdd.bind(this)} style={{ marginLeft: '10px' }}>
+          添加
+        </button>
+        <div>nowdo: {this.state.nowdo}</div>
         <ul style={{ paddingTop: '20px' }}>
           {this.state.todoList.map((todo, index) => (
-            <Todo key={Date.now() + '-' + index} order={index} tag='todo' content={todo} />
-          ))}
-          {this.state.nowdoList.map((nowdo, index) => (
-            <Todo key={Date.now() + '-' + index} order={index} tag='nowdo' content={nowdo} />
+            <Todo
+              handleDeleteItem={e => this.handleDelete.bind(this, e)}
+              key={Date.now() + '-' + index}
+              order={index}
+              content={todo}
+            />
           ))}
         </ul>
+        <hr />
+        <div>nowdo: {JSON.stringify(this.state.nowdo)}</div>
+        <div>todoList: {JSON.stringify(this.state.todoList)}</div>
       </div>
     );
   }

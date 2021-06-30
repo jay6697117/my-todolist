@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 import './assets/style.css';
 
 const todoList = ['图雀', '图雀写作工具', '图雀社区', '图雀文档'];
@@ -60,10 +61,11 @@ class App extends React.Component {
       alert('待办事项不能为空');
       return;
     }
-    this.state.todoList.push(this.state.nowdo);
+    const tempTodoList = _.clone(this.state.todoList);
+    tempTodoList.push(this.state.nowdo);
     this.setState({
       nowdo: '',
-      todoList: this.state.todoList
+      todoList: tempTodoList
     });
   }
 
@@ -71,15 +73,16 @@ class App extends React.Component {
     // console.log(`handleDelete e`, e);
     e.preventDefault();
     console.log(`num`, num);
-    for (let index = 0; index < this.state.todoList.length; index++) {
+    const tempTodoList = _.clone(this.state.todoList);
+    for (let index = 0; index < tempTodoList.length; index++) {
       if (index === num) {
-        this.state.todoList.splice(index, 1);
+        tempTodoList.splice(index, 1);
       }
     }
-    console.log(`handleDelete this.state.todoList`, this.state.todoList);
+    console.log(`handleDelete tempTodoList`, tempTodoList);
 
     this.setState({
-      todoList: this.state.todoList
+      todoList: tempTodoList
     });
   }
 
